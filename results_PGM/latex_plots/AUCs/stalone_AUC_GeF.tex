@@ -1,0 +1,62 @@
+\documentclass{standalone}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols\usepackage{tikz} % for drawing diagrams
+
+\usepackage{fvextra} % for \Verb in tabular environments
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{csvsimple-l3}
+\usepackage{tabularray}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+
+\usepackage{booktabs}
+
+\renewcommand{\arraystretch}{0.5}
+% less space between rows
+% \setlength{\tabrowsep}{0pt}
+
+
+
+\csvnames{myNames}{1=\dataset, 2=\chisq, 3=\tv, 4=\localeps, 5=\unc}
+
+
+\begin{document}
+	\csvreader[
+        myNames,
+        tabularray =
+            {
+                rowsep = 0.05mm,
+                colsep = 0mm,
+                vline{2} = {.4pt, black, dashed},
+                % vline{8} = {.4pt, black, dashed},
+                hline{1,13} = {1pt, black},
+                hline{2} = {.4pt, black},
+                row{1} = {c},
+				column{1} = {l,.9cm},
+                column{2,3,4,5} = {c, 1.45cm},
+				cell{2}{5} = {font=\bfseries},
+				cell{3}{5} = {font=\bfseries},
+				cell{4}{5} = {font=\bfseries},
+				cell{5}{2} = {font=\bfseries},
+				cell{5}{3} = {font=\bfseries},
+				cell{6}{3} = {font=\bfseries},
+				cell{7}{5} = {font=\bfseries},
+				cell{8}{2} = {font=\bfseries},
+				cell{9}{5} = {font=\bfseries},
+				cell{10}{5} = {font=\bfseries},
+				cell{11}{3} = {font=\bfseries},
+				cell{12}{3} = {font=\bfseries},
+            },
+        table head = { ID  & \(r_{\chi^2}\) & \(r_{\mathrm{TV}}\) & \(r_{\varepsilon}\) & \(u_{\mathrm{best}}\)\\},
+    ]{csvs/table_288_ALL_0.0_GeFs.csv}{}{
+        \csvexpval\dataset
+        &   \csvexpval\chisq
+        &   \csvexpval\tv
+        &   \csvexpval\localeps
+        &   \csvexpval\unc
+    }
+
+\end{document}

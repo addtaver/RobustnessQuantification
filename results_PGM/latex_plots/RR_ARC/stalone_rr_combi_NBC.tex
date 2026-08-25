@@ -1,0 +1,81 @@
+\documentclass{standalone}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols\usepackage{tikz} % for drawing diagrams
+
+\usepackage{fvextra} % for \Verb in tabular environments
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{csvsimple-l3}
+\usepackage{tabularray}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+
+\usepackage{booktabs}
+
+\renewcommand{\arraystretch}{0.5}
+% less space between rows
+% \setlength{\tabrowsep}{0pt}
+
+
+
+\csvnames{myNames}{1=\dataset, 2=\chisq, 3=\chisqw, 4=\tv, 5=\tvw, 6=\localeps, 7=\localepsw, 8=\unct, 9=\unctw, 10=\unca, 11=\uncaw, 12=\unce, 13=\uncew, 14=\uncm, 15=\uncmw, 16=\unch, 17=\unchw, 18=\uncc, 19=\unccw}
+
+
+\begin{document}
+	\csvreader[
+        myNames,
+        tabularray =
+            {
+                rowsep = 0.13mm,
+                colsep = 0mm,
+                vline{2} = {.4pt, black},
+                vline{4,6,8,10,12,14,16,18} = {.6pt, black, dashed},
+                vline{3,5,7,9,11,13,15,17,19} = {.5pt, black, dotted},
+                % vline{8} = {.4pt, black, dashed},
+                hline{1,8} = {1pt, black},
+                hline{3} = {.6pt, black},
+                hline{2,7} = {.2pt, black},
+                row{1} = {c},
+                row{2} = {font=\small},
+                columns = {c, 1.2cm},
+				column{1} = {c, 1.3cm},
+				column{3,5,7,9,11,13,15,17,19} = {c, 0.5cm},
+                % accuracies
+                % cell{3}{8} = {font=\bfseries},
+                % cell{4}{2} = {font=\bfseries},
+                % cell{5}{2} = {font=\bfseries},
+                % cell{6}{2} = {font=\bfseries},
+                % % winners
+                % cell{3}{7} = {font=\bfseries},
+                % cell{4}{7} = {font=\bfseries},
+                % cell{5}{7} = {font=\bfseries},
+                % cell{6}{7} = {font=\bfseries},
+                % % au-arc
+                % cell{7}{2} = {font=\bfseries},
+            },
+        table head = { \SetCell[r=2]{c} RR(\%)  & \SetCell[c=2]{c} \(r_{\chi^2}\) & & \SetCell[c=2]{c} \(r_{\mathrm{TV}}\) & & \SetCell[c=2]{c} \(r_{\varepsilon}\) & & \SetCell[c=2]{c} \(u_{\mathrm{t}}\) & & \SetCell[c=2]{c} \(u_{\mathrm{a}}\) & & \SetCell[c=2]{c} \(u_{\mathrm{e}}\) & & \SetCell[c=2]{c} \(u_{\mathrm{m}}\) & & \SetCell[c=2]{c} \(u_{\mathrm{H}}\) & & \SetCell[c=2]{c} \(u_{\mathrm{c}}\) & \\},
+    ]{csvs/table_rr_combi_NBC.csv}{}{
+        \csvexpval\dataset
+        &   \csvexpval\chisq
+        &   \csvexpval\chisqw
+        &   \csvexpval\tv
+        &   \csvexpval\tvw
+        &   \csvexpval\localeps
+        &   \csvexpval\localepsw
+        &   \csvexpval\unct
+        &   \csvexpval\unctw
+        &   \csvexpval\unca
+        &   \csvexpval\uncaw
+        &   \csvexpval\unce
+        &   \csvexpval\uncew
+        &   \csvexpval\uncm
+        &   \csvexpval\uncmw
+        &   \csvexpval\unch
+        &   \csvexpval\unchw
+        &   \csvexpval\uncc
+        &   \csvexpval\unccw
+    }
+
+\end{document}

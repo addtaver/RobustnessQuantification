@@ -1,0 +1,167 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{array}
+% \usepackage{fontspec}
+\usepackage{framed,color}
+% no page number
+\pagestyle{empty}
+
+\usetikzlibrary{arrows,automata,pgfplots.colorbrewer,}
+
+% % Font setup for stix2: before amsmath and alike
+% \RequirePackage[lcgreekalpha]{stix2} % STIX2 font
+% \RequirePackage{microtype}[2019/11/18] % micro-typography
+
+\pgfplotsset{
+    compat=1.18,
+    cycle from colormap manual style/.style={
+        cycle list={
+            [of colormap=Paired]
+        }
+    },
+}
+
+% \definecolor{global_eps}{HTML}{59a14f}
+% \definecolor{local_eps}{HTML}{edc948}
+% \definecolor{aleatoric}{HTML}{ff9da7}
+% \definecolor{entropies}{HTML}{76b7b2}
+% \definecolor{max_prob}{HTML}{f28e2b}
+% \definecolor{total}{HTML}{b07aa1}
+% \definecolor{epistemic}{HTML}{bab0ac}
+
+
+\definecolor{ugentgeel}{RGB}{255, 210, 0}
+\definecolor{darkgreen}{rgb}{0.01, 0.65, 0.18}
+\definecolor{unc_yellow}{RGB}{255, 210, 0}
+% \definecolor{hybrid_green}{rgb}{0.62, 0.82, 0.2}
+\definecolor{TV}{rgb}{0.62, 0.82, 0.2}
+
+\colorlet{chisquared}{darkgreen}
+% \colorlet{TV}{green!90!black}
+
+
+\definecolor{light_blue}{rgb}{0.4, 0.7, 0.99}
+\definecolor{turq_blue}{rgb}{0.25, 0.85, 0.90}
+\definecolor{dark_blue}{rgb}{0.22, 0.32, 0.95}
+
+\definecolor{dark_purple}{RGB}{130, 84, 145}
+\definecolor{pink}{RGB}{232, 94, 113}
+
+\definecolor{local_eps}{rgb}{0.62, 0.82, 0.2}
+\definecolor{aleatoric}{RGB}{232, 94, 113}
+\definecolor{maxprob}{RGB}{251, 126, 58}
+\definecolor{epistemic}{RGB}{130, 84, 145}
+\colorlet{margin}{ugentgeel!95!black}
+
+
+\definecolor{groen}{RGB}{113, 168, 96}
+\colorlet{entropies}{ugentgeel!95!black}
+\colorlet{total}{black!50}
+% \colorlet{epsloc}{epsglob!70!black}
+
+
+% \colorlet{epsglob}{global_eps}
+
+% https://latexcolor.com
+% https://tex.stackexchange.com/questions/19617/how-to-place-and-scale-tikz-pictures-in-subfigure
+% https://www.reddit.com/r/LaTeX/comments/3kws7b/aligning_multiple_tikz_images_in_one_figure/
+
+\newcommand{\maxprob}{u_{\mathrm{max}}}
+\newcommand{\margin}{u_{\mathrm{marg}}}
+\newcommand{\entropy}{u_H}
+\newcommand{\aleatunc}{u_{a}}
+\newcommand{\totunc}{u_{t}}
+\newcommand{\epistunc}{u_{e}}
+% \newcommand{\globeps}{r_{\varepsilon,\mathrm{glob}}}
+\newcommand{\loceps}{r_{\varepsilon}}
+\newcommand{\TV}{r_{\mathrm{TV}}}
+\newcommand{\chisquared}{r_{\chi^2}}
+
+
+
+% \newcommand{\xmax}{275} %Australian 		NICE
+\newcommand{\xmax}{399} %german			KINDA
+% \newcommand{\xmax}{284} %Healthy			alles suckt
+% \newcommand{\xmax}{425} %solar_big		JA HOOR
+% \newcommand{\xmax}{128} %solar_small		MEH
+% \newcommand{\xmax}{173} %spect				NIEJE
+% \newcommand{\xmax}{259} % student
+
+
+\newcommand{\ymin}{0.70} %Australian
+% \newcommand{\ymin}{0.65} %german
+% \newcommand{\ymin}{0.35} %Healthy
+\newcommand{\ymax}{1.00}
+
+% \newcommand{\noiseA}{0}
+% \newcommand{\noiseB}{0.1}
+% \newcommand{\noiseC}{0.2}
+
+% \newcommand{\NtrainA}{200}
+% \newcommand{\NtrainB}{100}
+% \newcommand{\NtrainC}{50}
+
+\begin{document}
+
+
+% \begin{figure}
+	% \centering
+	\begin{tikzpicture}
+	% \node[rotate=90] at (0,10) {TEST};
+	\begin{axis}[
+		% width=4\textwidth,
+		% height=5\textwidth,
+		ymin=\ymin, ymax=\ymax,
+		xmin= 0, xmax= 400,
+		xtick pos=left,
+		xtick = {100, 200, 300, 400},
+		xticklabels = {\(0.25\), \(0.5\), \(0.75\), \(1.0\)},
+		ytick = {0.7, 0.8, 0.9, 1.0},
+		yticklabels = {\(0.7\), \(0.8\), \(0.9\), \(1.0\)},
+		% xmajorticks=false,
+		% ymajorticks=false,
+		xmajorgrids=true,
+		ymajorgrids=true,
+		axis line style={draw=gray!50, thick},
+		% title=ARC,
+		xlabel={Rejection rate},
+		ylabel={Accuracy},
+		width=18cm,
+		height=5.5cm,
+		enlarge x limits=false,
+		cycle list/Paired,
+		cycle from colormap manual style,
+		legend pos=north west,
+		legend entries={%
+		{\tiny \(\chisquared\)},
+		{\tiny \(\TV\)},
+		{\tiny \(\loceps\)},
+		{\tiny \(\entropy\)},
+		{\tiny \(\margin\)},
+		{\tiny \(\maxprob\)},
+		{\tiny \(\totunc\)},
+		{\tiny \(\epistunc\)},
+		{\tiny \(\aleatunc\)},
+		},
+		]
+		\addplot+ [no marks, very thick, color=chisquared] table [x={n}, y={chi2}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=TV] table [x={n}, y={total_var}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=orange] table [x={n}, y={local_eps}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=dark_purple] table [x={n}, y={entropies}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=gray, dotted] table [x={n}, y={margin_of_confidence}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=pink, dashed] table [x={n}, y={max_prob}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=light_blue] table [x={n}, y={total}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=turq_blue] table [x={n}, y={epistemic}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+		\addplot+ [no marks, very thick, color=dark_blue] table [x={n}, y={aleatoric}, col sep=comma] {./csvs/bank_ALL_GeFs_arc.csv};
+
+	\end{axis}
+	\end{tikzpicture}
+% \end{figure}
+
+
+\end{document}
