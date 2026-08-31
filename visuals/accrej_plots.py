@@ -48,6 +48,95 @@ def get_accaccs_curve(measure, classification_results, rejection=True, get_order
 	return accs
 
 
+def hybrid_accaccs(metric_1, metric_2, classification_results, metric_3=None, mixing_factor=0.5):
+	N = len(metric_1)
+
+	ranks_metric_1 = np.empty_like(metric_1)
+	ranks_metric_1[np.argsort(metric_1)] = np.arange(N)
+
+	rank_metric_2 = np.empty_like(metric_2)
+	rank_metric_2[np.argsort(metric_2)] = np.arange(N)
+
+	hybrid_ranks = (mixing_factor * ranks_metric_1 * 1.0001 + (1-mixing_factor) * rank_metric_2)
+	hybrid_sorted = np.argsort(hybrid_ranks)
+
+	classification_results_sorted = np.zeros(N)
+	classification_results_sorted += classification_results[hybrid_sorted]
+
+	# initialize array to keep track of the accuracy for each n
+	# the length of the array depends on the step size
+	accs = np.zeros(N)
+
+	# get the accuracy for each n
+	for i in range(N):
+		accs[i] = classification_results_sorted[i:].sum()/(N-i)
+
+	# invert order of accs
+	accs = accs[::-1]
+
+	return accs
+
+def hybrid_accaccs3(metric_1, metric_2, metric_3, classification_results, mixing_factor=0.5):
+	N = len(metric_1)
+
+	ranks_metric_1 = np.empty_like(metric_1)
+	ranks_metric_1[np.argsort(metric_1)] = np.arange(N)
+
+	rank_metric_2 = np.empty_like(metric_2)
+	rank_metric_2[np.argsort(metric_2)] = np.arange(N)
+
+	rank_metric_3 = np.empty_like(metric_3)
+	rank_metric_3[np.argsort(metric_3)] = np.arange(N)
+
+	hybrid_ranks = (mixing_factor[0] * ranks_metric_1 * 1.0001 + mixing_factor[1] * rank_metric_2 + mixing_factor[2] * rank_metric_3)
+	hybrid_sorted = np.argsort(hybrid_ranks)
+
+	classification_results_sorted = np.zeros(N)
+	classification_results_sorted += classification_results[hybrid_sorted]
+
+	# initialize array to keep track of the accuracy for each n
+	# the length of the array depends on the step size
+	accs = np.zeros(N)
+
+	# get the accuracy for each n
+	for i in range(N):
+		accs[i] = classification_results_sorted[i:].sum()/(N-i)
+
+	# invert order of accs
+	accs = accs[::-1]
+
+	return accs
+
+
+def get_mean_accs_hybrid(list_of_rob_metrics, list_of_classif_results, metric, metric_2=None, metric_3=None, mixing=0.5, stddev=False, subset_indices=None):
+    list_of_accs = []
+    list_of_aucs = []
+
+    for i in range(len(list_of_rob_metrics)):
+        if metric_3 is not None:
+            accs = hybrid_accaccs3(list_of_rob_metrics[i][metric], list_of_rob_metrics[i][metric_2], list_of_rob_metrics[i][metric_3], list_of_classif_results[i], mixing_factor=mixing)
+        else:
+            if subset_indices is not None:
+                accs = hybrid_accaccs(list_of_rob_metrics[i][metric][subset_indices], list_of_rob_metrics[i][metric_2][subset_indices], list_of_classif_results[i][subset_indices], mixing_factor=mixing)
+            else:
+                accs = hybrid_accaccs(list_of_rob_metrics[i][metric], list_of_rob_metrics[i][metric_2], list_of_classif_results[i], mixing_factor=mixing)
+
+        list_of_accs.append(accs)
+        list_of_aucs.append(np.mean(accs))
+
+    list_of_accs = np.vstack(list_of_accs)
+    list_of_aucs = np.vstack(list_of_aucs)
+
+    accaccs = np.mean(list_of_accs, axis=0)
+    auc = np.mean(list_of_aucs)
+
+    if stddev:
+        stddevs = np.std(list_of_accs, axis=0)
+        stddevs_auc = np.std(list_of_aucs)
+        return accaccs, auc, stddevs, stddevs_auc
+    return accaccs, auc
+
+
 def get_ideal_accaccs(classification_results):
 	N = len(classification_results)
 

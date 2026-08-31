@@ -153,3 +153,104 @@ def standard_experiment_NBC(X_train, y_train, X_test, y_test, C, F, metrics_to_c
 
 
 	return rob_metrics, classification_results, y_pred
+
+
+def standard_experiment_on_train_NBC(X_train, y_train, X_test, y_test, C, F, metrics_to_calc, n_splits=5, stratified=False, N_bootstraps=10, max_iter=40):
+	"""
+		This experiment trains the model on a dataset, and then computes all the reliability metrics on a test set.
+	"""
+
+	N_test = X_test.shape[0]
+	N_train = X_train.shape[0]
+
+	# initialize the arrays to store the results
+	rob_metrics = {}
+	rob_metrics_train = {}
+	for _, metric in enumerate(metrics_to_calc):
+		rob_metrics[metric] = np.zeros(N_test)
+		rob_metrics_train[metric] = np.zeros(N_train)
+		if metric == 'margin_of_confidence':
+			rob_metrics['global_eps'] = np.zeros(N_test)
+			rob_metrics_train['global_eps'] = np.zeros(N_train)
+
+
+	classification_results = np.zeros(N_test)
+	y_pred = np.zeros(N_test)
+
+	classification_results_train = np.zeros(N_train)
+	y_pred_train = np.zeros(N_train)
+
+
+	# this array contains the possible values for each feature
+	feat_vals = [np.arange(F[i]) for i in range(len(F))]
+
+	# determine the optimal smoothing parameter alpha using cross-validation
+	alpha = cross_validation(X_train, y_train, C, feat_vals, n_splits=n_splits, stratified=stratified)
+
+	# fit the model to the training data
+	nb = NBC(alpha=alpha)
+	nb.fit(X_train, y_train, feat_vals=feat_vals, classes=np.arange(C))
+
+	pred_prob = nb.predict_posterior(X_test)
+	y_pred += nb.classes[np.argmax(pred_prob, axis=1)]
+	classification_results += (y_test == y_pred).astype(float)
+
+	pred_prob_train = nb.predict_posterior(X_train)
+	y_pred_train += nb.classes[np.argmax(pred_prob_train, axis=1)]
+	classification_results_train += (y_train == y_pred_train).astype(float)
+	### calculate the reliability metrics
+
+	## uncertainty metrics:
+	if 'max_prob' in metrics_to_calc:
+		# probability of the predicted class (highest one) for each data point
+		rob_metrics['max_prob'] += calculate_max_prob(pred_prob)
+		rob_metrics_train['max_prob'] += calculate_max_prob(pred_prob_train)
+
+	if 'entropies' in metrics_to_calc:
+		# entropy of the predicted probabilities for each data point
+		rob_metrics['entropies'] -= calculate_entropy(pred_prob)
+		rob_metrics_train['entropies'] -= calculate_entropy(pred_prob_train)
+
+	# ensemble uncertainty metrics
+	if 'aleatoric' in metrics_to_calc or 'epistemic' in metrics_to_calc or 'total' in metrics_to_calc:
+		avg_entropy, entropy_avg, _ = calculate_epistimic_uncertainty_bootstrapped(N_bootstraps, X_train, y_train, X_test, alpha, feat_vals=feat_vals)
+		avg_entropy_train, entropy_avg_train, _ = calculate_epistimic_uncertainty_bootstrapped(N_bootstraps, X_train, y_train, X_train, alpha, feat_vals=feat_vals)
+		if 'aleatoric' in metrics_to_calc:
+			rob_metrics['aleatoric'] += avg_entropy
+			rob_metrics_train['aleatoric'] += avg_entropy_train
+		if 'total' in metrics_to_calc:
+			rob_metrics['total'] += entropy_avg
+			rob_metrics_train['total'] += entropy_avg_train
+		if 'epistemic' in metrics_to_calc:
+			rob_metrics['epistemic'] += entropy_avg - avg_entropy
+			rob_metrics_train['epistemic'] += entropy_avg_train - avg_entropy_train
+
+	if 'margin_of_confidence' in metrics_to_calc or 'global_eps' in metrics_to_calc:
+		# difference between the highest and second highest probability for each data point
+		_, diff, global_eps = calculate_precise_diff(pred_prob, global_eps=True)
+		_, diff_train, global_eps_train = calculate_precise_diff(pred_prob_train, global_eps=True)
+		if 'margin_of_confidence' in metrics_to_calc:
+			rob_metrics['margin_of_confidence'] += diff
+			rob_metrics_train['margin_of_confidence'] += diff_train
+
+		# global epsilon (robustness metric), is a scaled version of the deltas
+		if 'global_eps' in metrics_to_calc:
+			rob_metrics['global_eps'] += global_eps
+			rob_metrics_train['global_eps'] += global_eps_train
+
+
+	## robustness metrics:
+	if 'local_eps' in metrics_to_calc:
+		rob_metrics['local_eps'] += nb.predict_local_epsilon_rob(X_test, step_size=1e-9, upper_bound=1.0, max_iter=max_iter)
+		rob_metrics_train['local_eps'] += nb.predict_local_epsilon_rob(X_train, step_size=1e-9, upper_bound=1.0, max_iter=max_iter)
+
+
+	if 'total_var' in metrics_to_calc:
+		rob_metrics['rob_loc_TV'] += nb.predict_local_TV_rob(X_test, max_iter=max_iter, min_rob=1e-10)
+		rob_metrics_train['rob_loc_TV'] += nb.predict_local_TV_rob(X_train, max_iter=max_iter, min_rob=1e-10)
+
+	if 'chi2' in metrics_to_calc:
+		rob_metrics['rob_loc_chi2'] += nb.predict_local_chi2_rob(X_test, step_size=1e-9, upper_bound=1.0, max_iter=max_iter)
+		rob_metrics_train['rob_loc_chi2'] += nb.predict_local_chi2_rob(X_train, step_size=1e-9, upper_bound=1.0, max_iter=max_iter)
+
+	return rob_metrics, classification_results, y_pred, rob_metrics_train, classification_results_train, y_pred_train

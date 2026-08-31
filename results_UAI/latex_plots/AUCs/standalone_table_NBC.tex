@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols\usepackage{tikz} % for drawing diagrams
+
+\usepackage{fvextra} % for \Verb in tabular environments
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{csvsimple-l3}
+\usepackage{tabularray}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+
+\definecolor{darkgreen}{rgb}{0.01, 0.65, 0.18}
+% \definecolor{rob_blue}{rgb}{0.0, 0.75, 1.0}
+\definecolor{rob_blue}{rgb}{0.2, 0.72, 0.92}
+% \definecolor{unc_yellow}{rgb}{0.95, 0.82, 0.27}
+\definecolor{unc_yellow}{RGB}{255, 210, 0}
+% \definecolor{hybrid_green}{rgb}{0.1, 0.7, 0.2}
+\definecolor{hybrid_green}{rgb}{0.62, 0.82, 0.2}
+\csvnames{myNames}{1=\dataset, 2=\maxprob, 3=\margin, 4=\entropy, 5=\total, 6=\aleatoric, 7=\epistemic, 8=\robgl, 9=\robloc}
+
+
+\begin{document}
+	\csvreader[
+        myNames,
+        tabularray =
+            {
+                rowsep = 0.5mm,
+                colsep = 0mm,
+                vline{2} = {.4pt, black, dashed},
+                vline{8} = {.4pt, black, dashed},
+                hline{1,16} = {1pt, black},
+                hline{2} = {.4pt, black},
+                row{1} = {c},
+				column{1} = {l,.9cm},
+                column{2,3,4,5,6,7,8,9} = {c, 1.45cm},
+				% cell{2}{6} = {font=\bfseries},
+                % cell{3}{2} = {font=\bfseries},
+                % cell{3}{3} = {font=\bfseries},
+                % cell{3}{4} = {font=\bfseries},
+                % cell{4}{2} = {font=\bfseries},
+                % cell{4}{3} = {font=\bfseries},
+                % cell{4}{4} = {font=\bfseries},
+                % cell{5}{9} = {font=\bfseries},
+                % cell{6}{9} = {font=\bfseries},
+                % cell{7}{4} = {font=\bfseries},
+                % cell{8}{9} = {font=\bfseries},
+                % cell{9}{2} = {font=\bfseries},
+                % cell{10}{9} = {font=\bfseries},
+                % cell{11}{9} = {font=\bfseries},
+                % cell{12}{5} = {font=\bfseries},
+                % cell{13}{6} = {font=\bfseries},
+                % cell{14}{6} = {font=\bfseries},
+                % cell{15}{9} = {font=\bfseries},
+                },
+        table head = { ID  & \(u_{\mathrm{max}}\) & \(u_{\mathrm{marg}}\) & \(u_{\mathrm{H}}\) & \(u_{\mathrm{t}}\) & \(u_{\mathrm{a}}\) & \(u_{\mathrm{e}}\) & \(r_{\mathrm{glob}}\) & \(r_{\mathrm{loc}}\)\\},
+    ]{files/table_all_metrics_42_NBC.csv}{}{
+        \csvexpval\dataset
+        &   \csvexpval\maxprob
+        &   \csvexpval\margin
+        &   \csvexpval\entropy
+        &   \csvexpval\total
+        &   \csvexpval\aleatoric
+        &   \csvexpval\epistemic
+        &   \csvexpval\robgl
+        &   \csvexpval\robloc
+    }
+
+\end{document}
