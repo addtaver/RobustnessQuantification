@@ -1,14 +1,14 @@
-"""Reproduce the results of the UAI paper experiments (label-noise / limited-data setting).
+"""Reproduce the results of the comparing_rq_and_uq paper experiments (label-noise / limited-data setting).
 
-Steps (each one is a script in experiments/uai/):
-    1. run_experiments.py   NBC and GeF, all metrics + hybrids       -> results/uai/{csv,accaccs,auc,DS_auc}
-    2. make_arc_grid.py     ARC grid data                             -> results/uai/latex_plots/ARC_grid/files
-    3. make_auc_tables.py   AUC tables                                -> results/uai/latex_plots/AUCs/files
+Steps (each one is a script in experiments/comparing_rq_and_uq/):
+    1. run_experiments.py   NBC and GeF, all metrics + hybrids       -> results/comparing_rq_and_uq/{csv,accaccs,auc,DS_auc}
+    2. make_arc_grid.py     ARC grid data                             -> results/comparing_rq_and_uq/latex_plots/ARC_grid/files
+    3. make_auc_tables.py   AUC tables                                -> results/comparing_rq_and_uq/latex_plots/AUCs/files
 
 Usage:
-    python script/reproduce_UAI_paper.py            # full reproduction (takes a long time)
-    python script/reproduce_UAI_paper.py --quick    # small smoke test on BCW, written to results/uai_quick
-    python script/reproduce_UAI_paper.py --skip-run # only rebuild the tables/figure data from existing raw results
+    python script/reproduce_comparing_rq_and_uq_paper.py            # full reproduction (takes a long time)
+    python script/reproduce_comparing_rq_and_uq_paper.py --quick    # small smoke test on BCW, written to results/comparing_rq_and_uq_quick
+    python script/reproduce_comparing_rq_and_uq_paper.py --skip-run # only rebuild the tables/figure data from existing raw results
 
 Note: the paper's tables use seed 42 and the arc grid seed 0 (see the defaults of the individual scripts);
 pass --seed to run_experiments.py directly to generate other seeds.
@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-EXPERIMENTS = REPO_ROOT / 'experiments' / 'uai'
+EXPERIMENTS = REPO_ROOT / 'experiments' / 'comparing_rq_and_uq'
 
 
 def run(script, *args):
@@ -36,7 +36,7 @@ def main():
     args = p.parse_args()
 
     if args.quick:
-        results_dir = args.results_dir or REPO_ROOT / 'results' / 'uai_quick'
+        results_dir = args.results_dir or REPO_ROOT / 'results' / 'comparing_rq_and_uq_quick'
         if not args.skip_run:
             run('run_experiments.py', '--seed', 0, '--datasets', 'BCW', '--training-sizes', 50,
                 '--noise-factors', 0.0, 0.2, '--n-runs', 2, '--n-estimators', 8, '--results-dir', results_dir)
@@ -44,7 +44,7 @@ def main():
             '--results-dir', results_dir)
         run('make_auc_tables.py', '--datasets', 'BCW', '--seed', 0, '--size', 50, '--results-dir', results_dir)
     else:
-        results_dir = args.results_dir or REPO_ROOT / 'results' / 'uai'
+        results_dir = args.results_dir or REPO_ROOT / 'results' / 'comparing_rq_and_uq'
         if not args.skip_run:
             # the paper reports seed 0 (ARC grid) and seed 42 (tables)
             for seed in (0, 42):

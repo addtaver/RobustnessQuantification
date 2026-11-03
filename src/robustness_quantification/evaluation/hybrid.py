@@ -1,4 +1,4 @@
-"""Hybrid (convex combination) reliability metrics, as used in the UAI experiments."""
+"""Hybrid (convex combination) reliability metrics, as used in the comparing_rq_and_uq experiments."""
 import numpy as np
 
 from robustness_quantification.evaluation.accrej_plots import get_accaccs_curve, get_mean_accs_hybrid

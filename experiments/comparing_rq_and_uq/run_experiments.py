@@ -1,4 +1,4 @@
-"""Run the UAI experiments: reliability metrics (uncertainty, global/local epsilon-robustness and hybrids of both)
+"""Run the comparing_rq_and_uq experiments: reliability metrics (uncertainty, global/local epsilon-robustness and hybrids of both)
 for NBCs and GeFs, trained on small (optionally label-noised) training sets.
 
 Writes, per dataset/seed/training size/noise level (``name``), in ``<results-dir>``:
@@ -23,8 +23,8 @@ from robustness_quantification.pipelines.nbc import standard_experiment_on_train
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-UAI_DATASETS = ['Australian', 'adult', 'bank', 'BCW', 'german', 'Healthy_aging', 'heart_disease', 'lymphography',
-                'nursery', 'solar_big', 'solar_small', 'spect_heart', 'student_math_bin', 'student_port_bin']
+DATASETS = ['Australian', 'adult', 'bank', 'BCW', 'german', 'Healthy_aging', 'heart_disease', 'lymphography',
+            'nursery', 'solar_big', 'solar_small', 'spect_heart', 'student_math_bin', 'student_port_bin']
 UNCERTAINTY_METRICS = ['max_prob', 'entropies', 'aleatoric', 'epistemic', 'total', 'margin_of_confidence']
 ROBUSTNESS_METRICS = ['global_eps', 'local_eps']
 METRICS = UNCERTAINTY_METRICS + ROBUSTNESS_METRICS
@@ -36,7 +36,7 @@ MODELS = ['NBC', 'GeFs']
 def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--seed', type=int, default=0)
-    p.add_argument('--datasets', nargs='+', default=UAI_DATASETS)
+    p.add_argument('--datasets', nargs='+', default=DATASETS)
     p.add_argument('--training-sizes', nargs='+', default=['50', '100', '200'],
                    help="training set sizes, 'ALL' uses the complete training set")
     p.add_argument('--noise-factors', type=float, nargs='+', default=[0.0, 0.10, 0.20])
@@ -48,7 +48,7 @@ def parse_args(argv=None):
     p.add_argument('--n-bootstraps', type=int, default=10)
     p.add_argument('--fraction-test', type=float, default=0.4)
     p.add_argument('--max-size-test-set', type=int, default=1000)
-    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'uai')
+    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'comparing_rq_and_uq')
     return p.parse_args(argv)
 
 

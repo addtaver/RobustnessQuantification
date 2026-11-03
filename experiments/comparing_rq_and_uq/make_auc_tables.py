@@ -1,4 +1,4 @@
-"""Write the AUC table (all uncertainty metrics vs. global/local robustness and their hybrids) of the UAI paper.
+"""Write the AUC table (all uncertainty metrics vs. global/local robustness and their hybrids) of the comparing_rq_and_uq paper.
 
 Reads  <results-dir>/auc/<dataset>_<seed>_<size>_noise_<noise>_<model>.dat
 Writes <results-dir>/latex_plots/AUCs/files/table_all_metrics_<seed>_<model>[_DS].csv
@@ -21,7 +21,7 @@ def parse_args(argv=None):
     p.add_argument('--size', default='50')
     p.add_argument('--noise', type=float, default=0.0)
     p.add_argument('--models', nargs='+', choices=['NBC', 'GeFs'], default=['NBC', 'GeFs'])
-    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'uai')
+    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'comparing_rq_and_uq')
     return p.parse_args(argv)
 
 

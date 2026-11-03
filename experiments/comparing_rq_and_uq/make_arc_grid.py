@@ -1,4 +1,4 @@
-"""Write the csv files for the ARC grid of the UAI paper (all metrics, for several training sizes and noise levels).
+"""Write the csv files for the ARC grid of the comparing_rq_and_uq paper (all metrics, for several training sizes and noise levels).
 
 Reads  <results-dir>/accaccs/<dataset>_<seed>_<size>_noise_<noise>_<model>.dat
 Writes <results-dir>/latex_plots/ARC_grid/files/<dataset>_<size>_noise_<noise>_<model>_arc.csv
@@ -22,7 +22,7 @@ def parse_args(argv=None):
     p.add_argument('--sizes', nargs='+', default=['50', '100', '200'])
     p.add_argument('--noises', nargs='+', default=['0.0', '0.1', '0.2'])
     p.add_argument('--models', nargs='+', choices=['NBC', 'GeFs'], default=['NBC', 'GeFs'])
-    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'uai')
+    p.add_argument('--results-dir', type=Path, default=REPO_ROOT / 'results' / 'comparing_rq_and_uq')
     return p.parse_args(argv)
 
 

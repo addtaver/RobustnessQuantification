@@ -5,7 +5,7 @@ Code, data and results for the PGM 2026 paper
 > **Local Robustness Quantification for Naive Bayes Classifiers and Generative Forests: a General Approach**
 > Adrian Detavernier — the paper is in [`paper/pgm26/`](paper/pgm26/detavernier_pgm26.pdf).
 
-The repository implements local robustness quantification (ε-contamination, total variation and χ² neighbourhoods) for Naive Bayes classifiers (NBC) and Generative Forests (GeF), and compares these robustness metrics to uncertainty metrics (max. probability, entropy, aleatoric/epistemic/total uncertainty, margin of confidence) by means of accuracy-rejection curves. It also contains the code of the earlier UAI experiments (limited training data and label noise).
+The repository implements local robustness quantification (ε-contamination, total variation and χ² neighbourhoods) for Naive Bayes classifiers (NBC) and Generative Forests (GeF), and compares these robustness metrics to uncertainty metrics (max. probability, entropy, aleatoric/epistemic/total uncertainty, margin of confidence) by means of accuracy-rejection curves. It also contains the code and results for a paper that compares robustness and uncertainty quantification in the context of limited training data and label noise for Naive Bayes classifiers and Generative Forests.
 
 ## Repository structure
 
@@ -22,16 +22,18 @@ The repository implements local robustness quantification (ε-contamination, tot
 │   └── utils/                # GeDT helper functions
 ├── experiments/
 │   ├── pgm26/                # scripts that run the PGM'26 experiments and post-process their output
-│   └── uai/                  # same for the UAI experiments
+│   └── comparing_rq_and_uq/  # comparing robustness and uncertainty quantification
 ├── script/
 │   ├── reproduce_PGM_paper.py   # recreate all PGM'26 results
-│   └── reproduce_UAI_paper.py   # recreate all UAI results
+│   └── reproduce_comparing_rq_and_uq_paper.py   # recreate all comparing_rq_and_uq results
 ├── notebooks/                # annotated notebooks (quickstart, reproduction of the PGM'26 results)
 ├── data/                     # datasets used in the experiments (see data/README.md)
 ├── results/                  # all generated output (raw results, figure/table data, LaTeX sources)
 │   ├── pgm26/
-│   └── uai/
-└── paper/pgm26/              # the paper
+│   └── comparing_rq_and_uq/
+└── paper/
+    ├── pgm26/                # PGM'26 paper
+    └── comparing_rq_and_uq/  # comparing robustness and uncertainty quantification paper
 ```
 
 ## Installation
@@ -75,7 +77,7 @@ The script runs, in order, the scripts in [`experiments/pgm26/`](experiments/pgm
 | `make_arc_csvs.py` | `latex_plots/ARCs/csvs/`: averaged ARCs (figures) |
 | `make_rr_tables.py` | `latex_plots/RR_ARC/csvs/`: accuracy/wins per rejection rate and AU-ARC (Tables 3 and 4) |
 
-Every script has `--help` (seeds, datasets, number of runs, GeF size, output directory, ...). The figures and tables are compiled from the standalone `.tex` files in `results/pgm26/latex_plots/` with `lualatex`. The UAI experiments are reproduced analogously with `script/reproduce_UAI_paper.py`. An annotated version of the PGM'26 pipeline is in [`notebooks/02_reproduce_PGM_results.ipynb`](notebooks/02_reproduce_PGM_results.ipynb).
+Every script has `--help` (seeds, datasets, number of runs, GeF size, output directory, ...). The figures and tables are compiled from the standalone `.tex` files in `results/pgm26/latex_plots/` with `lualatex`. The `comparing_rq_and_uq` experiments are reproduced with `script/reproduce_comparing_rq_and_uq_paper.py`. An annotated version of the PGM'26 pipeline is in [`notebooks/02_reproduce_PGM_results.ipynb`](notebooks/02_reproduce_PGM_results.ipynb).
 
 ### Reproducibility notes
 
