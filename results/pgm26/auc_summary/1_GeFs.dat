@@ -1,0 +1,23 @@
+For each dataset, this table lists the reliability metrics sorted by their AUC (shown in parentheses) from highest to lowest.
+
+solar_smal:	epistemi (0.90729±0.02343) | local_ep (0.89680±0.01111) | total_va (0.89653±0.00885) | chi2     (0.89631±0.01030) | total    (0.89386±0.02648) | aleatori (0.88098±0.02433) | max_prob (0.85911±0.01665) | entropie (0.85911±0.01665) | margin_o (0.85911±0.01665)
+
+Australian:	total    (0.91746±0.02154) | epistemi (0.91063±0.02401) | chi2     (0.90896±0.02149) | total_va (0.90819±0.02033) | aleatori (0.90719±0.01728) | local_ep (0.90338±0.01817) | max_prob (0.87875±0.01112) | entropie (0.87875±0.01112) | margin_o (0.87875±0.01112)
+
+student_ma:	epistemi (0.94033±0.01354) | total_va (0.93986±0.01342) | local_ep (0.93972±0.01167) | chi2     (0.93741±0.01477) | total    (0.88066±0.03204) | aleatori (0.86098±0.02282) | max_prob (0.79576±0.03890) | entropie (0.79576±0.03890) | margin_o (0.79576±0.03890)
+
+student_po:	total_va (0.93985±0.02055) | local_ep (0.93948±0.01419) | chi2     (0.93637±0.02294) | epistemi (0.92510±0.02554) | total    (0.85760±0.02037) | aleatori (0.84122±0.02505) | max_prob (0.79972±0.02475) | entropie (0.79972±0.02475) | margin_o (0.79972±0.02475)
+
+german    :	chi2     (0.82352±0.02479) | total_va (0.82322±0.02470) | local_ep (0.81490±0.02275) | epistemi (0.79759±0.02041) | total    (0.79373±0.02683) | aleatori (0.78280±0.02717) | max_prob (0.76334±0.02581) | entropie (0.76334±0.02581) | margin_o (0.76334±0.02581)
+
+Healthy_ag:	total    (0.49964±0.02972) | epistemi (0.49495±0.02081) | total_va (0.49233±0.02741) | chi2     (0.48860±0.02012) | local_ep (0.48267±0.03011) | max_prob (0.48170±0.03263) | margin_o (0.48146±0.03121) | entropie (0.48001±0.03483) | aleatori (0.46876±0.02929)
+
+solar_big :	local_ep (0.89829±0.00806) | total_va (0.89795±0.00848) | chi2     (0.89780±0.00872) | total    (0.89602±0.00574) | aleatori (0.89156±0.00416) | max_prob (0.88077±0.01019) | entropie (0.88077±0.01019) | margin_o (0.88077±0.01019) | epistemi (0.88031±0.01561)
+
+bank      :	epistemi (0.92739±0.01454) | total    (0.92700±0.01520) | local_ep (0.92234±0.01968) | total_va (0.92183±0.02118) | chi2     (0.92065±0.02445) | aleatori (0.92051±0.01389) | max_prob (0.91329±0.02167) | entropie (0.91329±0.02167) | margin_o (0.91329±0.02167)
+
+adult     :	total    (0.94380±0.01292) | aleatori (0.94297±0.01353) | max_prob (0.94288±0.01258) | entropie (0.94288±0.01258) | margin_o (0.94288±0.01258) | total_va (0.90498±0.02123) | local_ep (0.90498±0.02132) | chi2     (0.90471±0.02169) | epistemi (0.87871±0.02181)
+
+BCW       :	chi2     (0.99653±0.00066) | total_va (0.99652±0.00068) | local_ep (0.99613±0.00054) | epistemi (0.99518±0.00180) | total    (0.97639±0.00859) | aleatori (0.97495±0.00921) | max_prob (0.96958±0.00949) | entropie (0.96958±0.00949) | margin_o (0.96958±0.00949)
+
+spect_hear:	max_prob (0.99829±0.00011) | entropie (0.99829±0.00011) | margin_o (0.99829±0.00011) | total    (0.99740±0.00040) | aleatori (0.99706±0.00066) | epistemi (0.99450±0.00080) | total_va (0.98363±0.01090) | local_ep (0.98358±0.01208) | chi2     (0.98175±0.01200)

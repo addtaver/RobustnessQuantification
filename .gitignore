@@ -258,3 +258,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Project-specific ---
+# Keep the datasets, the paper results and the paper itself under version control
+!data/**/*.csv
+!data/**/*.dat
+!results/**/*.csv
+!results/**/*.dat
+!paper/**/*.pdf
+# ... except for large unused datasets and quick/smoke-test outputs
+data/extra/
+results/*_quick/
+*.egg-info/

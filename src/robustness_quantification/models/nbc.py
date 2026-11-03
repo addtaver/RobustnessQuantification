@@ -1,6 +1,6 @@
 import numpy as np
 
-from NBC_robustness_utils import robustness_check_eps, robustness_check_TV, robustness_check_chi2
+from robustness_quantification.robustness.nbc_robustness import robustness_check_eps, robustness_check_TV, robustness_check_chi2
 
 
 class NBC():

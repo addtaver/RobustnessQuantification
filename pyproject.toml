@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robustness-quantification"
+version = "0.1.0"
+description = "Local robustness quantification for Naive Bayes classifiers and generative forests (PGM 2026)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Adrian Detavernier", email = "adrian.detavernier@ugent.be" }]
+keywords = ["robustness", "uncertainty", "naive bayes", "generative forests", "probabilistic graphical models"]
+dependencies = [
+    "numpy",
+    "scikit-learn",
+    "matplotlib",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+notebooks = ["jupyter", "ipykernel"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

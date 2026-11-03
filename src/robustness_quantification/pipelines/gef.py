@@ -1,6 +1,6 @@
 import numpy as np
 
-from GeF import GeF, compute_robustness, calc_information_theoretic_uncertainty, calculate_entropy, calculate_precise_diff, get_rob_glob
+from robustness_quantification.models.gef import GeF, compute_robustness, calc_information_theoretic_uncertainty, calculate_entropy, calculate_precise_diff, get_rob_glob
 
 
 def standard_experiment_GeFs(X_train, y_train, X_test, y_test, C, F, metrics_to_calc, n_estimators=40, N_bootstraps=10, precision_bisearch=1e-10, max_iter=100):

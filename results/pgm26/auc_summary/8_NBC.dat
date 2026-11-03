@@ -1,0 +1,5 @@
+For each dataset, this table lists the reliability metrics sorted by their AUC (shown in parentheses) from highest to lowest.
+
+solar_smal:	chi2     (0.91118±0.01751) | local_ep (0.90663±0.03379) | max_prob (0.90281±0.02046) | entropie (0.90281±0.02046) | margin_o (0.90281±0.02046) | total    (0.89831±0.02496) | aleatori (0.89805±0.02956) | total_va (0.89789±0.03784) | epistemi (0.88106±0.01732)
+
+Australian:	chi2     (0.92919±0.00775) | total    (0.92600±0.02360) | max_prob (0.92342±0.02819) | entropie (0.92342±0.02819) | margin_o (0.92342±0.02819) | epistemi (0.92069±0.01814) | aleatori (0.92028±0.02767) | local_ep (0.91863±0.00921) | total_va (0.91138±0.00934)

@@ -1,5 +1,22 @@
+import os
+from pathlib import Path
+
 import numpy as np
 from sklearn.preprocessing import KBinsDiscretizer
+
+
+def get_data_dir():
+	"""Directory containing the datasets: $RQ_DATA_DIR, else <repo>/data, else ./data."""
+	env = os.environ.get('RQ_DATA_DIR')
+	if env:
+		return Path(env)
+	repo_data = Path(__file__).resolve().parents[3] / 'data'
+	return repo_data if repo_data.is_dir() else Path.cwd() / 'data'
+
+
+def _uci(filename):
+	return str(get_data_dir() / 'UCI' / filename)
+
 
 data_sets = ['adult', 'Australian', 'bank', 'BCW', 'german', 'Healthy_aging', 'heart_disease', 'lymphography', 'mushroom', 'nursery', 'primary_tumor', 'solar_small', 'solar_big', 'soybean', 'spect_heart', 'student_math_bin', 'student_math_fourcl', 'student_port_bin', 'student_port_fourcl', 'zoo']
 
@@ -8,8 +25,8 @@ def load_dataset(set_name, randomize=True):
 	X_test, y_test = None, None
 
 	if set_name == 'adult':
-		data = np.genfromtxt('./data/UCI/adult.data', delimiter=',',dtype=str, autostrip=True)
-		data_test = np.genfromtxt('./data/UCI/adult.test', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('adult.data'), delimiter=',',dtype=str, autostrip=True)
+		data_test = np.genfromtxt(_uci('adult.test'), delimiter=',',dtype=str, autostrip=True)
 		X_train, X_test = data[:, :-1], data_test[:, :-1]
 		y_train, y_test = data[:, -1], data_test[:, -1]
 		y_train = np.array([0 if yi.strip() == '<=50K' else 1 for yi in y_train]).astype(int)
@@ -33,7 +50,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'Australian':
-		data = np.genfromtxt('./data/UCI//australian.dat',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('australian.dat'),dtype=str, autostrip=True)
 		X, y = data[:, :-1], data[:, -1].astype(int)
 
 		X = np.delete(X, [1, 2, 6, 9, 12, 13], 1)
@@ -45,7 +62,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'bank':
-		data = np.genfromtxt('./data/UCI/bank.csv',dtype=str, skip_header=1, delimiter=';', autostrip=True)
+		data = np.genfromtxt(_uci('bank.csv'),dtype=str, skip_header=1, delimiter=';', autostrip=True)
 		# data = np.genfromtxt('data/bank/bank-full.csv',dtype=str, autostrip=True
 		X, y = data[:, :-1], data[:, -1]
 
@@ -61,7 +78,7 @@ def load_dataset(set_name, randomize=True):
 	elif set_name == 'BCW':
 		F = [10]*9
 
-		data = np.genfromtxt('./data/UCI/breast-cancer-wisconsin.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('breast-cancer-wisconsin.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, 1:-1], data[:, -1].astype(int)
 
 		if randomize:
@@ -79,7 +96,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'german':
-		data = np.genfromtxt('./data/UCI/german.data',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('german.data'),dtype=str, autostrip=True)
 		X, y = data[:, :-1], data[:, -1].astype(int)
 		X = np.delete(X, [1,4,7,10,12,15,17], 1)
 
@@ -90,7 +107,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'Healthy_aging':
-		data = np.genfromtxt('./data/UCI/NPHA-doctor-visits.csv',delimiter=',', dtype=str, autostrip=True, skip_header=1)
+		data = np.genfromtxt(_uci('NPHA-doctor-visits.csv'),delimiter=',', dtype=str, autostrip=True, skip_header=1)
 		X, y = data[:, 1:], data[:, 0].astype(int)
 
 		X = np.delete(X, [0], 1)
@@ -102,7 +119,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'heart_disease':
-		data = np.genfromtxt('./data/UCI/processed.cleveland.data', delimiter=',', dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('processed.cleveland.data'), delimiter=',', dtype=str, autostrip=True)
 		X, y = data[:, :-1], data[:, -1]
 
 		X = np.delete(X, [0, 3, 4, 7, 9], 1)
@@ -115,7 +132,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'lymphography':
-		data = np.genfromtxt('./data/UCI/lymphography.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('lymphography.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, 1:], data[:, 0]
 
 		if randomize:
@@ -125,7 +142,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'mushroom':
-		data = np.genfromtxt('./data/UCI/agaricus-lepiota.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('agaricus-lepiota.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, 1:], data[:, 0]
 		X, y = X[~(X == '?').any(axis=1)], y[~(X == '?').any(axis=1)]
 
@@ -137,7 +154,7 @@ def load_dataset(set_name, randomize=True):
 
 	elif set_name == 'nursery':
 		# has a lot of structure
-		data = np.genfromtxt('./data/UCI/nursery.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('nursery.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, :-1], data[:, -1]
 
 		# remove instances of class that is underrepresented
@@ -150,7 +167,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'primary_tumor':
-		data = np.genfromtxt('./data/UCI/primary-tumor.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('primary-tumor.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, 1:], data[:, 0]
 
 		np.delete(X, [2, 3], 1)
@@ -164,9 +181,9 @@ def load_dataset(set_name, randomize=True):
 
 	elif set_name == 'solar_small' or set_name == 'solar_big':
 		if set_name == 'solar_small':
-			data = np.genfromtxt('./data/UCI/flare.data1', delimiter=' ',dtype=str, autostrip=True)
+			data = np.genfromtxt(_uci('flare.data1'), delimiter=' ',dtype=str, autostrip=True)
 		else:
-			data = np.genfromtxt('./data/UCI/flare.data2', delimiter=' ',dtype=str, autostrip=True)
+			data = np.genfromtxt(_uci('flare.data2'), delimiter=' ',dtype=str, autostrip=True)
 		X, y = data[:, 0:-3], data[:, -3:].astype(int)
 		y = np.sum(y, axis=1)
 		# X, y = data[:, 0:-3], data[:, -3].astype(int)
@@ -178,8 +195,8 @@ def load_dataset(set_name, randomize=True):
 			X, y = X[perm], y[perm]
 
 	elif set_name == 'soybean':
-		data_train = np.loadtxt('./data/UCI/backup-large.data', delimiter=',',dtype=str)
-		data_test = np.loadtxt('./data/UCI/backup-large.test', delimiter=',',dtype=str)
+		data_train = np.loadtxt(_uci('backup-large.data'), delimiter=',',dtype=str)
+		data_test = np.loadtxt(_uci('backup-large.test'), delimiter=',',dtype=str)
 		X, y = data_train[:, 1:].astype(int), data_train[:, 0]
 		X_test, y_test = data_test[:, 1:].astype(int), data_test[:, 0]
 
@@ -192,8 +209,8 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'spect_heart':
-		data_train = np.genfromtxt('./data/UCI/SPECT.train', delimiter=',',dtype=int, autostrip=True)
-		data_test = np.genfromtxt('./data/UCI/SPECT.test', delimiter=',',dtype=int, autostrip=True)
+		data_train = np.genfromtxt(_uci('SPECT.train'), delimiter=',',dtype=int, autostrip=True)
+		data_test = np.genfromtxt(_uci('SPECT.test'), delimiter=',',dtype=int, autostrip=True)
 		X_train, y_train = data_train[:, 1:], data_train[:, 0]
 		X_test, y_test = data_test[:, 1:], data_test[:, 0]
 
@@ -209,9 +226,9 @@ def load_dataset(set_name, randomize=True):
 
 	elif set_name == 'student_math_bin' or set_name == 'student_port_bin' or  set_name == 'student_math_four' or set_name == 'student_port_four':
 		if set_name == 'student_math':
-			data = np.genfromtxt('./data/UCI/student-mat.csv', delimiter=';',dtype=str, autostrip=True, skip_header=1)
+			data = np.genfromtxt(_uci('student-mat.csv'), delimiter=';',dtype=str, autostrip=True, skip_header=1)
 		else:
-			data = np.genfromtxt('./data/UCI/student-por.csv', delimiter=';',dtype=str, autostrip=True, skip_header=1)
+			data = np.genfromtxt(_uci('student-por.csv'), delimiter=';',dtype=str, autostrip=True, skip_header=1)
 
 		X, y = data[:, :-4], data[:, -1].astype(int)
 
@@ -229,7 +246,7 @@ def load_dataset(set_name, randomize=True):
 
 
 	elif set_name == 'zoo':
-		data = np.genfromtxt('./data/UCI/zoo.data', delimiter=',',dtype=str, autostrip=True)
+		data = np.genfromtxt(_uci('zoo.data'), delimiter=',',dtype=str, autostrip=True)
 		X, y = data[:, 1:-1].astype(int), data[:, -1].astype(int)
 
 		if randomize:

@@ -2,7 +2,7 @@ from sklearn.model_selection import KFold, StratifiedKFold
 
 import numpy as np
 
-from NBC import NBC, calculate_max_prob, calculate_entropy, calculate_precise_diff, calculate_epistimic_uncertainty_bootstrapped
+from robustness_quantification.models.nbc import NBC, calculate_max_prob, calculate_entropy, calculate_precise_diff, calculate_epistimic_uncertainty_bootstrapped
 
 
 def cross_validation(X, y, C, feat_vals, n_splits=3, stratified=True):

@@ -1,0 +1,49 @@
+AUC global_ vs margi vs Hybrid 0.03 (0.37): 0.88028082 0.85110287 0.88176656 (0.88257516)
+
+AUC global_ vs max_p vs Hybrid 0.03 (0.37): 0.88028082 0.85112943 0.88176656 (0.88265822)
+
+AUC global_ vs aleat vs Hybrid 0.09 (0.28): 0.88028082 0.85457396 0.87788078 (0.88500605)
+
+AUC global_ vs total vs Hybrid 0.13 (0.69): 0.88028082 0.88286036 0.88309496 (0.89238504)
+
+AUC global_ vs epist vs Hybrid 0.09 (0.67): 0.88028082 0.88040453 0.88371245 (0.89214517)
+
+AUC global_ vs entro vs Hybrid 0.15 (0.37): 0.88028082 0.85110287 0.87527536 (0.88257516)
+
+
+AUC local_e vs margi vs Hybrid 1.00 (0.03): 0.91111329 0.85110287 0.85110287 (0.91163096)
+
+AUC local_e vs max_p vs Hybrid 1.00 (0.03): 0.91111329 0.85112943 0.85112943 (0.91163096)
+
+AUC local_e vs aleat vs Hybrid 0.98 (0.03): 0.91111329 0.85457396 0.85792665 (0.91178292)
+
+AUC local_e vs total vs Hybrid 0.87 (0.04): 0.91111329 0.88286036 0.88858725 (0.91195662)
+
+AUC local_e vs epist vs Hybrid 0.95 (0.14): 0.91111329 0.88040453 0.88912904 (0.91243781)
+
+AUC local_e vs entro vs Hybrid 0.97 (0.03): 0.91111329 0.85110287 0.85934317 (0.91163096)
+
+
+
+Ranking of all metrics and combinations by AUC:                                              Ranking of all metrics and OPTIMAL combinations by AUC:
+
+local_eps                                                    0.91111329                      local_eps_epistemic_0.14                                     0.91243781
+local_eps_epistemic_0.95                                     0.88912904                      local_eps_total_0.04                                         0.91195662
+local_eps_total_0.87                                         0.88858725                      local_eps_aleatoric_0.03                                     0.91178292
+global_eps_epistemic_0.09                                    0.88371245                      local_eps_margin_of_confidence_0.03                          0.91163096
+global_eps_total_0.13                                        0.88309496                      local_eps_max_prob_0.03                                      0.91163096
+total                                                        0.88286036                      local_eps_entropies_0.03                                     0.91163096
+global_eps_margin_of_confidence_0.03                         0.88176656                      local_eps                                                    0.91111329
+global_eps_max_prob_0.03                                     0.88176656                      global_eps_total_0.69                                        0.89238504
+epistemic                                                    0.88040453                      global_eps_epistemic_0.67                                    0.89214517
+global_eps                                                   0.88028082                      global_eps_aleatoric_0.28                                    0.88500605
+global_eps_aleatoric_0.09                                    0.87788078                      total                                                        0.88286036
+global_eps_entropies_0.15                                    0.87527536                      global_eps_max_prob_0.37                                     0.88265822
+local_eps_entropies_0.97                                     0.85934317                      global_eps_margin_of_confidence_0.37                         0.88257516
+local_eps_aleatoric_0.98                                     0.85792665                      global_eps_entropies_0.37                                    0.88257516
+aleatoric                                                    0.85457396                      epistemic                                                    0.88040453
+max_prob                                                     0.85112943                      global_eps                                                   0.88028082
+local_eps_max_prob_1.00                                      0.85112943                      aleatoric                                                    0.85457396
+margin_of_confidence                                         0.85110287                      max_prob                                                     0.85112943
+entropies                                                    0.85110287                      margin_of_confidence                                         0.85110287
+local_eps_margin_of_confidence_1.00                          0.85110287                      entropies                                                    0.85110287

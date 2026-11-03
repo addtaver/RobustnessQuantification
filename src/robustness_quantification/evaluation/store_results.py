@@ -75,3 +75,22 @@ def read_results_from_csv(filename, delimiter=','):
         rob_metrics[current_metric] = np.array(rob_metrics[current_metric])
 
     return classification_results, rob_metrics
+
+def read_accaccs(filename):
+    """Read an accuracy-rejection file written by the experiment scripts.
+
+    The file alternates a header line ('fixed:<metric>', 'uncer:<metric>' or 'hybri:<m1>,<m2>') with the
+    comma-separated curve. Returns a dict mapping the metric name (text after the colon) to the curve as a
+    list of strings.
+    """
+    curves = {}
+    metric = None
+    with open(filename, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if metric is not None:
+                curves[metric] = line.split(',')
+                metric = None
+            elif line[:5] in ('fixed', 'uncer', 'hybri') and ':' in line:
+                metric = line.split(':')[1].strip()
+    return curves

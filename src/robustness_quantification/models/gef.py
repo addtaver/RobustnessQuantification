@@ -2,7 +2,7 @@ import numpy as np
 import time
 from math import floor
 
-from GeDT import build_gedt
+from robustness_quantification.models.gedt import build_gedt
 
 """
 REMARKS:

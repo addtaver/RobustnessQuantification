@@ -1,6 +1,6 @@
 import numpy as np
 
-from GeDT_utils import find_best_split, resample_stratified, bincount, perturb_weights
+from robustness_quantification.utils.gedt_utils import find_best_split, resample_stratified, bincount, perturb_weights
 
 
 def evaluate(node, X, n_classes=2):
