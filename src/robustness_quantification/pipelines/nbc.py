@@ -16,7 +16,7 @@ def cross_validation(X, y, C, feat_vals, n_splits=3, stratified=True):
 	best_alpha = 0
 
 
-	alphas = [0.0001, 0.001, 0.01, 0.1, 1]
+	alphas = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 
 	for alph in alphas:
 		accuracy = 0
