@@ -1,0 +1,28 @@
+{
+    "explorer.excludeGitIgnore": false,
+    "files.exclude": {
+        "**/*.aux": true,
+        "**/*.bbl": true,
+        "**/*.bcf": true,
+        "**/*.blg": true,
+        "**/*.fdb_latexmk": true,
+        "**/*.fls": true,
+        "**/*.log": true,
+        "**/*.out": true,
+        "**/*.run.xml": true,
+        "**/*.synctex": true,
+        "**/*.synctex.gz": true,
+        "**/*.xdv": true,
+        ".vscode": true
+    },
+    "cSpell.words": [
+        "Credal",
+        "infimum",
+        "massfunctions",
+        "multinomial",
+        "overfitting",
+        "supremum",
+        "transductive"
+    ],
+    "workbench.colorTheme": "Monokai Pro"
+}

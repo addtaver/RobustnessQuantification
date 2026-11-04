@@ -270,3 +270,7 @@ __marimo__/
 data/extra/
 results/*_quick/
 *.egg-info/
+results/comparing_rq_and_uq/accaccs/
+results/comparing_rq_and_uq/auc/
+results/comparing_rq_and_uq/DS_auc/
+results/comparing_rq_and_uq/csv/

@@ -9,7 +9,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DATASETS = ['adult', 'Australian', 'bank']
+DATASETS = ['Australian', 'adult', 'bank', 'BCW', 'german', 'Healthy_aging', 'heart_disease', 'lymphography',
+            'nursery', 'solar_big', 'solar_small', 'spect_heart', 'student_math_bin', 'student_port_bin']
 UNCERTAINTY_SHORT = ['margi', 'max_p', 'aleat', 'total', 'epist', 'entro']
 PRECISION = 5
 
