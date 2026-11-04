@@ -5,9 +5,11 @@ Writes, per dataset/seed/training size/noise level (``name``), in ``<results-dir
     csv/<name>_<model>.csv                raw classification results and metrics
     accaccs/<name>_<model>.dat            accuracy-rejection curves (fixed/uncertainty/hybrid metrics)
     auc/<name>_<model>.dat                AUCs of the metrics and hybrids + rankings
-    DS_auc/<dataset>_<seed>_<size>_<model>_summary.dat   AUC (stddev) of every metric across noise levels
+    summaries/<dataset>_<seed>_<model>_combined.dat   AUC (stddev) of every metric across noise levels (columns)
+                                                      and training sizes (rows), written once all sizes are done
 """
 import argparse
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -31,6 +33,7 @@ METRICS = UNCERTAINTY_METRICS + ROBUSTNESS_METRICS
 # order in which uncertainty metrics are combined with the robustness metrics (determines the output file layout)
 HYBRID_ORDER = ['margin_of_confidence', 'max_prob', 'aleatoric', 'total', 'epistemic', 'entropies']
 MODELS = ['NBC', 'GeFs']
+NOISE_LABELS = []  # noise factors of the current run, set in main()
 
 
 def parse_args(argv=None):
@@ -140,10 +143,29 @@ def evaluate_model(runs, rob_shifted):
     return ''.join(accaccs_txt), ''.join(auc_txt)
 
 
+def write_summary(path, per_size, col_width=25):
+    """Write AUC (stddev) of every metric: one block per metric, one row per training size, one column per noise level."""
+    sizes = sorted(per_size, key=lambda s: float('inf') if s.upper() == 'ALL' else int(s), reverse=True)
+    labels = {s: f'Ndata={s}' for s in sizes}
+    w = max(len(m) for m in METRICS + list(labels.values()))
+    lines = []
+    for metric in METRICS:
+        n_levels = len(per_size[sizes[0]][metric])
+        header = ''.join(f'{f"{round(100 * nf)}% DS":<{col_width}}' for nf in NOISE_LABELS[:n_levels])
+        lines.append(f'{metric:<{w}} : {header}'.rstrip())
+        for s in sizes:
+            cells = ''.join(f'{f"{auc:.8f} ({std:.8f})":<{col_width}}' for auc, std in per_size[s][metric])
+            lines.append(f'{labels[s]:<{w}} : {cells}'.rstrip())
+        lines.append('')
+    path.write_text('\n'.join(lines))
+
+
 def main(argv=None):
     args = parse_args(argv)
-    for sub in ['csv', 'accaccs', 'auc', 'DS_auc']:
+    for sub in ['csv', 'accaccs', 'auc', 'summaries']:
         (args.results_dir / sub).mkdir(parents=True, exist_ok=True)
+    NOISE_LABELS[:] = args.noise_factors
+    summary = defaultdict(dict)
 
     np.random.seed(args.seed)
     print(f"\n--------------- Running experiment with seed: {args.seed} ---------------")
@@ -172,10 +194,10 @@ def main(argv=None):
                     (args.results_dir / 'auc' / f'{name}_{model}.dat').write_text(auc_txt)
 
             for model in MODELS:
-                with open(args.results_dir / 'DS_auc' / f'{base_name}_{model}_summary.dat', 'w') as f:
-                    for metric in METRICS:
-                        f.write(f'{metric:20s}: ' + ', '.join(
-                            f'{auc:.8f} ({stddev:.8f})' for auc, stddev in rob_shifted[model][metric]) + '\n')
+                summary[(set_name, model)][size_arg] = rob_shifted[model]
+
+    for (set_name, model), per_size in summary.items():
+        write_summary(args.results_dir / 'summaries' / f'{set_name}_{args.seed}_{model}_combined.dat', per_size)
 
 
 if __name__ == '__main__':

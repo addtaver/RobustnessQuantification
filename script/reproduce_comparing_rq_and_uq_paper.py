@@ -1,7 +1,7 @@
 """Reproduce the results of the comparing_rq_and_uq paper experiments (label-noise / limited-data setting).
 
 Steps (each one is a script in experiments/comparing_rq_and_uq/):
-    1. run_experiments.py   NBC and GeF, all metrics + hybrids       -> results/comparing_rq_and_uq/{csv,accaccs,auc,DS_auc}
+    1. run_experiments.py   NBC and GeF, all metrics + hybrids       -> results/comparing_rq_and_uq/{csv,accaccs,auc,summaries}
     2. make_arc_grid.py     ARC grid data                             -> results/comparing_rq_and_uq/latex_plots/ARC_grid/files
     3. make_auc_tables.py   AUC tables                                -> results/comparing_rq_and_uq/latex_plots/AUCs/files
 

@@ -266,7 +266,7 @@ __marimo__/
 !results/**/*.csv
 !results/**/*.dat
 !paper/**/*.pdf
-# ... except for large unused datasets and quick/smoke-test outputs
+# ... except for large unused datasets, quick/smoke-test outputs and all auxiliary csv/dat files
 data/extra/
 results/*_quick/
 *.egg-info/
